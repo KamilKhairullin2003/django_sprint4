@@ -1,5 +1,4 @@
 from django import forms
-from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Post, User, Comment
