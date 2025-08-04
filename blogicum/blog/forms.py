@@ -1,9 +1,8 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Post, Category, Location, User, Comment
+from .models import Post, User, Comment
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -29,8 +28,7 @@ class CustomUserCreationForm(UserCreationForm):
                   'last_name',
                   'email',
                   'password1',
-                  'password2',
-        )
+                  'password2',)
 
 
 class PostForm(forms.ModelForm):

@@ -6,7 +6,9 @@ app_name = 'blog'
 
 urlpatterns = [
     path('', views.PostListView.as_view(), name='index'),
-    path('posts/<int:post_id>/', views.PostDetailView.as_view(), name='post_detail'),
+    path(
+        'posts/<int:post_id>/', views.PostDetailView.as_view(), name='post_detail'
+    ),
     path(
         'category/<slug:slug>/',
         views.CategoryPostView.as_view(),
@@ -45,6 +47,5 @@ urlpatterns = [
     ),
     path('posts/<int:post_id>/delete_comment/<int:comment_id>/',
          views.CommentDeleteView.as_view(),
-         name='delete_comment'
-    ),
+         name='delete_comment'),
 ]

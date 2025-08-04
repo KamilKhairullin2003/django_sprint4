@@ -6,7 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.http import Http404
 
 
 from .forms import (
@@ -77,7 +76,7 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         context['comments'] = self.get_object().comments.all()
         return context
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         post = get_object_or_404(Post, pk=self.kwargs.get(self.pk_url_kwarg))
         if self.request.user == post.author:
             return post
@@ -167,7 +166,9 @@ class PostEditView(LoginRequiredMixin, OnlyAuthorMixin, UpdateView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            messages.error(self.request, 'Вы не можете редактировать чужой пост')
+            messages.error(
+                self.request, 'Вы не можете редактировать чужой пост'
+            )
         return redirect('blog:post_detail', post_id=self.kwargs['post_id'])
 
     def get_success_url(self):
@@ -224,7 +225,9 @@ class CommentEditView(LoginRequiredMixin, OnlyCommentAuthorMixin, UpdateView):
         )
 
 
-class CommentDeleteView(LoginRequiredMixin, OnlyCommentAuthorMixin, DeleteView):
+class CommentDeleteView(
+    LoginRequiredMixin, OnlyCommentAuthorMixin, DeleteView
+):
     model = Comment
     template_name = 'blog/comment.html'
     pk_url_kwarg = 'comment_id'
