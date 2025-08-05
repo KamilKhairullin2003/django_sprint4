@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-from blog.views import CustomSignUpView
+from blog.views import SignUpView
 
 
 urlpatterns = [
@@ -26,7 +26,7 @@ urlpatterns = [
     path('pages/', include('pages.urls', namespace='pages')),
     path('', include('blog.urls', namespace='blog')),
     path('auth/', include('django.contrib.auth.urls')),
-    path('auth/registration/', CustomSignUpView.as_view(), name='registration',
+    path('auth/registration/', SignUpView.as_view(), name='registration',
          )
 ]
 

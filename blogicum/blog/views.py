@@ -50,7 +50,7 @@ class CategoryPostView(ListView):
             slug=category_slug,
             is_published=True
         )
-        posts = filter_published_posts(category.category_posts.all())
+        posts = filter_published_posts(category.posts.all())
         return posts
 
     def get_context_data(self, **kwargs):
