@@ -4,9 +4,8 @@ from django.views.generic import (
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import login
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
-
 
 from .forms import (
     PostForm, CustomUserCreationForm, CommentForm, ProfileEditForm
@@ -96,7 +95,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:profile',
             kwargs={'username': self.object.author.username}
         )
@@ -134,7 +133,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:profile',
             kwargs={'username': self.object.username}
         )
@@ -144,7 +143,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class CustomSignUpView(CreateView):
+class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'registration/registration_form.html'
 
@@ -172,7 +171,7 @@ class PostEditView(LoginRequiredMixin, OnlyAuthorMixin, UpdateView):
         return redirect('blog:post_detail', post_id=self.kwargs['post_id'])
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:post_detail',
             kwargs={'post_id': self.object.id}
         )
@@ -206,7 +205,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:post_detail',
             kwargs={'post_id': self.kwargs['post_id']}
         )
@@ -219,7 +218,7 @@ class CommentEditView(LoginRequiredMixin, OnlyCommentAuthorMixin, UpdateView):
     pk_url_kwarg = 'comment_id'
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:post_detail',
             kwargs={'post_id': self.object.post.pk}
         )
@@ -233,7 +232,7 @@ class CommentDeleteView(
     pk_url_kwarg = 'comment_id'
 
     def get_success_url(self):
-        return reverse_lazy(
+        return reverse(
             'blog:post_detail',
             kwargs={'post_id': self.object.post.pk}
         )

@@ -1,9 +1,8 @@
-# Create your models here.
-
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from .constants import LENGTH_TITLE, MAX_STR_LENGTH
+
+from .constants import LENGTH_TITLE, MAX_STR_LENGTH, COMMENT_LENGTH
 
 User = get_user_model()
 
@@ -56,14 +55,12 @@ class Post(PublishedModel, models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='location_posts',
         verbose_name='Местоположение'
     )
     category = models.ForeignKey(
         'Category',
         on_delete=models.SET_NULL,
         null=True,
-        related_name='category_posts',
         verbose_name='Категория'
     )
     image = models.ImageField('Фото', upload_to='post_images', blank=True)
@@ -150,4 +147,4 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-        return self.text[:20]
+        return self.text[:COMMENT_LENGTH]
